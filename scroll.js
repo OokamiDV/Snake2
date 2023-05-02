@@ -1,8 +1,10 @@
 toString
 
+// создание игрового поля
 let gameField = document.createElement('div')
 gameField.className = 'gameField'
 
+// картинка головы 
 let arrow = document.createElement('img')
 arrow.style.backgroundImage = 'url(./gameDev/scroll/texture/arrow.png)'
 arrow.style.height = '20px'
@@ -10,6 +12,7 @@ arrow.style.width = '20px'
 arrow.style.position = 'absolute'
 arrow.style.zIndex = 3
 
+// картинка тела 
 let arrow2 = document.createElement('img')
 arrow2.style.backgroundImage = 'url(./gameDev/scroll/texture/arrow2.png)'
 arrow2.style.height = '20px'
@@ -17,21 +20,25 @@ arrow2.style.width = '20px'
 arrow2.style.position = 'absolute'
 arrow2.style.zIndex = 1
 
+// звук съедания
 let eatSong = new Audio()
 eatSong.src = './gameDev/scroll/sound/eat.mp3'
 eatSong.preload = 'auto'
 eatSong.volume = 0.3
 
+// музыка
 let mainTheme = new Audio()
 mainTheme.src = './gameDev/scroll/sound/them.mp3'
 mainTheme.preload = 'auto'
 mainTheme.volume = 0.7
 
+// звук при пройгрыше
 let bea = new Audio()
 bea.src = './gameDev/scroll/sound/ba.mp3'
 bea.preload = 'auto'
 bea.volume = 0.8
 
+// создание изображений для тела
 function creatBodyImg() {
     snakeBodyImgArr[dataArr.length - 1] = document.createElement('img')
     snakeBodyImgArr[dataArr.length - 1].style.backgroundImage = 'url(./gameDev/scroll/texture/arrow2.png)'
@@ -42,6 +49,7 @@ function creatBodyImg() {
     gameField.append(snakeBodyImgArr[dataArr.length - 1])
 }
 
+// картинка еды
 let apple = document.createElement('img')
 apple.style.backgroundImage = 'url(./gameDev/scroll/texture/apple.png)'
 apple.style.height = '20px'
@@ -53,12 +61,14 @@ apple.style.zIndex = 2
 gameField.append(arrow)
 gameField.append(apple)
 
+// контейнер для кнопок
 let buttonDiv = document.createElement('div')
 buttonDiv.style.display = 'flex'
 buttonDiv.style.justifyContent = 'space-between'
 buttonDiv.style.alignContent = 'space-between'
 buttonDiv.style.flexWrap = 'wrap'
 
+// фоновая картинка
 let backgroundField = document.createElement('div')
 backgroundField.className = 'backgroundField'
 backgroundField.style.width = '800px'
@@ -68,22 +78,24 @@ backgroundField.style.margin = 'auto'
 backgroundField.style.zIndex = -1
 backgroundField.style.position = 'relative'
 
+// кнопи управления
 let butRight = document.createElement('button')
 butRight.style.height = '40px'
-butRight.textContent = 'Right'
+butRight.textContent = 'D'
 
 let butLeft = document.createElement('button')
 butLeft.style.height = '40px'
-butLeft.textContent = 'Left'
+butLeft.textContent = 'A'
 
 let butUp = document.createElement('button')
 butUp.style.height = '40px'
-butUp.textContent = 'Up'
+butUp.textContent = 'W'
 
 let butDawn = document.createElement('button')
 butDawn.style.height = '40px'
-butDawn.textContent = 'Dawn'
+butDawn.textContent = 'S'
 
+// управление кнопками
 butRight.onclick = function() {
     moveSnakeRigh()
 }
@@ -100,6 +112,7 @@ butDawn.onclick = function() {
     moveSnakeDawn()
 }
 
+// создание игровой сетки поля
 let tableDiv = document.createElement('div')
 tableDiv.className = 'tableDiv'
 
@@ -126,6 +139,7 @@ buttonDiv.append(butRight)
 buttonDiv.append(butUp)
 buttonDiv.append(butDawn)
 
+// уменьшение игрового поля 
 function fieldDecr() {
     tRow -= 1
     for (let i = -1; i < tData; i++) {
@@ -140,6 +154,7 @@ function fieldDecr() {
 
 }
 
+// создание игрового поля
 for (let i = -1; i < tRow; i++) {
     tableField[i] = document.createElement('tr')
     tableField[i].ggHere = false
@@ -170,14 +185,16 @@ for (let i = -1; i < tRow; i++) {
 }
 
 
-
+// стартовое положение змейки
 let SnakeHeadX = 15
 let SnakeHeadY = 15
 
+// массив с координатами текущего положения змейки
 let dataArr = [
     [SnakeHeadX, SnakeHeadY]
 ]
 
+// конец игры
 function gameOver() {
     if (tableField[SnakeHeadX][SnakeHeadY].ggHere === true && dataArr[dataArr.length - 1][1] !== dataArr[dataArr.length - 3][1] && dataArr[dataArr.length - 1][0] !== dataArr[dataArr.length - 3][0]) {
         bea.play()
@@ -191,6 +208,7 @@ function gameOver() {
 
 }
 
+// повород змейки на 180
 function chengeHead() {
     if (snakeLength > 2 && dataArr[dataArr.length - 1][1] === dataArr[dataArr.length - 3][1] && dataArr[dataArr.length - 1][0] === dataArr[dataArr.length - 3][0]) {
         dataArr = dataArr.reverse()
@@ -199,6 +217,7 @@ function chengeHead() {
     }
 }
 
+// запоминание координат змейки и тела
 function memData() {
     if (dataArr.length < snakeLength) {
         dataArr.push([SnakeHeadX, SnakeHeadY])
@@ -215,6 +234,7 @@ function memData() {
 
 }
 
+// присваивание координат кеток 
 function markCell() {
     for (let i = 0; i < dataArr.length; i++) {
         snake[i] = tableField[dataArr[i][0]][dataArr[i][1]]
@@ -228,6 +248,7 @@ function markCell() {
     }
 }
 
+// передвижение змейки в стороны
 function moveBlockRight() {
     if (!snakeEat()) {
         SnakeHeadY++
@@ -241,7 +262,6 @@ function moveBlockRight() {
 
 
 }
-
 
 function moveBlockLeft() {
     if (!snakeEat()) {
@@ -282,6 +302,7 @@ function moveBlockDawn() {
 
 }
 
+// назначения кнопк управления
 document.addEventListener('keydown', function(event) {
     if (event.code == 'KeyD') {
         cursNow = 'right'
@@ -289,11 +310,8 @@ document.addEventListener('keydown', function(event) {
         moveBlockRight(snake)
         moveSnakeRigh()
         ggHereNow()
-
     }
-
 })
-
 
 document.addEventListener('keydown', function(event) {
     if (event.code == 'KeyA') {
@@ -302,10 +320,8 @@ document.addEventListener('keydown', function(event) {
         moveBlockLeft(snake)
         ggHereNow()
         moveSnakeLeft()
-
     }
 })
-
 
 document.addEventListener('keydown', function(event) {
     if (event.code == 'KeyW') {
@@ -317,7 +333,6 @@ document.addEventListener('keydown', function(event) {
     }
 })
 
-
 document.addEventListener('keydown', function(event) {
     if (event.code == 'KeyS') {
         cursNow = 'dawn'
@@ -325,21 +340,19 @@ document.addEventListener('keydown', function(event) {
         moveBlockDawn(snake)
         ggHereNow()
         moveSnakeDawn()
-
     }
 })
 
-
+// отслеживание змейки
 function ggHereNow() {
     snake.ggHere = true
     console.log(arrCurs)
-
 }
 
 let snakeLength = 1
-
 let interval = undefined
 
+// присвоение головы
 let snake = []
 snake[0] = tableField[SnakeHeadX][SnakeHeadY]
     // snake[0].style.background = 'green'
@@ -352,6 +365,7 @@ arrow.style.top = `${xAndYforImg[1]}px`
 
 let snakeBodyImgArr = []
 
+// передвижение картинок тела
 function moveBodyImg() {
     for (let i = 0; i < snakeBodyImgArr.length; i++) {
         let info = snake[i].getBoundingClientRect()
@@ -361,6 +375,7 @@ function moveBodyImg() {
     }
 }
 
+// передвижени изображения головы
 function moveImgHead() {
     imgSnakeHead = tableField[SnakeHeadX][SnakeHeadY].getBoundingClientRect()
     xAndYforImg = [imgSnakeHead.x, imgSnakeHead.y]
@@ -368,6 +383,7 @@ function moveImgHead() {
     arrow.style.top = `${xAndYforImg[1]}px`
 }
 
+// передвижение изображения еды
 function moveImgApple() {
     let appleinfo = tableField[eatX][eatY].getBoundingClientRect()
     eatXandY = [appleinfo.x, appleinfo.y]
@@ -376,23 +392,23 @@ function moveImgApple() {
     apple.hidden = false
 }
 
-
 let eat = 0
 let eatX = 0
 let eatY = 0
-
 let eatXandY = undefined
 
+// начальная скорость предвижения змейки
 let tempSnake = 700
 
+// съедание фруктов
 function snakeEat() {
     if (tableField[SnakeHeadX][SnakeHeadY].eatHere === true) {
         apple.hidden = true
         snakeLength++
         tableField[SnakeHeadX][SnakeHeadY].eatHere = false
         eat = 0
-        spawnHavchik()
         fieldDecr()
+        spawnHavchik()
         countEat++
         counterDiv.innerHTML = countEat
         tempSnake -= 20
@@ -400,12 +416,10 @@ function snakeEat() {
         creatBodyImg()
         eatSong.play()
         return snakeLength
-
     }
-
-
 }
 
+// появление еды
 function spawnHavchik() {
     if (eat == 0) {
         eat = 1
@@ -422,19 +436,21 @@ function spawnHavchik() {
     }
 }
 
-
+// случайное число Х оси для еды
 function randomX() {
     let random = Math.random() * tRow - 3
     random = Math.floor(random)
     return random
 }
 
+// случайное число У оси для еды
 function randomY() {
     let random = Math.random() * tData - 3
     random = Math.floor(random)
     return random
 }
 
+// передвижение блоков в стороны
 function moveSnakeRigh() {
     clearInterval(interval)
     interval = setInterval(() => moveBlockRight(snake), tempSnake)
@@ -458,6 +474,7 @@ function moveSnakeDawn() {
 let cursNow = undefined
 let arrCurs = ['right', 'left', 'up', 'dawn']
 
+// отслеживание направления змейки
 function curs() {
     if (!arrCurs.includes(cursNow)) {
         arrCurs.push(cursNow)
@@ -472,8 +489,6 @@ function curs() {
 }
 
 spawnHavchik()
-
-
 
 // Список для реализации
 
@@ -512,9 +527,9 @@ spawnHavchik()
 // рабочий метод getBoundingClientRect() +
 
 // Сделать тело из картинок по аналогии с головой,
-// создается новый элемент и привызявается к соответсвующей части
+// создается новый элемент и привызявается к соответсвующей части +
 
-// сделать картинки яблок , вместо черних квадратов
+// сделать картинки яблок , вместо черних квадратов +
 
 // сделать аниамцию глаз и рта в зависимости от удаленности
 // от яблока
