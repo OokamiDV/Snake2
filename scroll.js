@@ -1,8 +1,19 @@
 toString
 
-// создание игрового поля
+// контейнер игрового поля
 let gameField = document.createElement('div')
 gameField.className = 'gameField'
+gameField.style.height = '900px'
+gameField.style.width = '800px'
+gameField.style.margin = 'auto'
+
+let divForField = document.createElement('div')
+divForField.style.width = '100vw'
+divForField.style.height = '100vw'
+divForField.style.position = 'fixed'
+divForField.style.top = '0'
+divForField.style.left = '0'
+divForField.style.zIndex = '999'
 
 // картинка головы 
 let arrow = document.createElement('img')
@@ -11,6 +22,14 @@ arrow.style.height = '20px'
 arrow.style.width = '20px'
 arrow.style.position = 'absolute'
 arrow.style.zIndex = 3
+
+let arrow3 = document.createElement('img')
+arrow3.hidden = true
+arrow3.style.backgroundImage = 'url(./gameDev/scroll/texture/arrow3.png)'
+arrow3.style.height = '20px'
+arrow3.style.width = '20px'
+arrow3.style.position = 'absolute'
+arrow3.style.zIndex = 3
 
 // картинка тела 
 let arrow2 = document.createElement('img')
@@ -60,6 +79,7 @@ apple.style.zIndex = 2
 
 gameField.append(arrow)
 gameField.append(apple)
+gameField.append(arrow3)
 
 // контейнер для кнопок
 let buttonDiv = document.createElement('div')
@@ -96,19 +116,19 @@ butDawn.style.height = '40px'
 butDawn.textContent = 'S'
 
 // управление кнопками
-butRight.onclick = function() {
+butRight.onmousedown = function() {
     moveSnakeRigh()
 }
 
-butLeft.onclick = function() {
+butLeft.onmousedown = function() {
     moveSnakeLeft()
 }
 
-butUp.onclick = function() {
+butUp.onmousedown = function() {
     moveSnakeUp()
 }
 
-butDawn.onclick = function() {
+butDawn.onmousedown = function() {
     moveSnakeDawn()
 }
 
@@ -128,7 +148,8 @@ counterDiv.append(countEat)
 let tRow = 38
 let tData = 38
 
-document.body.append(gameField)
+document.body.append(divForField)
+divForField.append(gameField)
 gameField.append(backgroundField)
 backgroundField.append(tableDiv)
 tableDiv.append(tableField)
@@ -362,6 +383,8 @@ let xAndYforImg = [imgSnakeHead.x, imgSnakeHead.y]
 
 arrow.style.left = `${xAndYforImg[0]}px`
 arrow.style.top = `${xAndYforImg[1]}px`
+arrow3.style.left = `${xAndYforImg[0]}px`
+arrow3.style.top = `${xAndYforImg[1]}px`
 
 let snakeBodyImgArr = []
 
@@ -381,6 +404,27 @@ function moveImgHead() {
     xAndYforImg = [imgSnakeHead.x, imgSnakeHead.y]
     arrow.style.left = `${xAndYforImg[0]}px`
     arrow.style.top = `${xAndYforImg[1]}px`
+    arrow3.style.left = `${xAndYforImg[0]}px`
+    arrow3.style.top = `${xAndYforImg[1]}px`
+    if (
+        tableField[SnakeHeadX][SnakeHeadY + 2].eatHere === true ||
+        tableField[SnakeHeadX][SnakeHeadY + 1].eatHere === true ||
+        tableField[SnakeHeadX][SnakeHeadY - 2].eatHere === true ||
+        tableField[SnakeHeadX][SnakeHeadY - 1].eatHere === true ||
+        tableField[SnakeHeadX + 1][SnakeHeadY].eatHere === true ||
+        tableField[SnakeHeadX + 2][SnakeHeadY].eatHere === true ||
+        tableField[SnakeHeadX - 1][SnakeHeadY].eatHere === true ||
+        tableField[SnakeHeadX - 2][SnakeHeadY].eatHere === true
+    ) {
+        arrow.hidden = true
+        arrow3.hidden = false
+    } else {
+        arrow3.hidden = true
+        arrow.hidden = false
+
+    }
+
+
 }
 
 // передвижение изображения еды
