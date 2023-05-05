@@ -97,6 +97,9 @@ backgroundField.style.background = 'url(./gameDev/scroll/texture/background.jpg)
 backgroundField.style.margin = 'auto'
 backgroundField.style.zIndex = -1
 backgroundField.style.position = 'relative'
+backgroundField.style.display = 'flex'
+backgroundField.style.flexDirection = 'column'
+backgroundField.style.justifyContent = 'space-around'
 
 // кнопи управления
 let butRight = document.createElement('button')
@@ -179,12 +182,14 @@ function fieldDecr() {
 for (let i = -1; i < tRow; i++) {
     tableField[i] = document.createElement('tr')
     tableField[i].ggHere = false
+    tableField[i].eatHere = false
     tableField.append(tableField[i])
 
     for (let g = -1; g < tData; g++) {
         tableField[i][g] = document.createElement('td')
         tableField[i].append(tableField[i][g])
         tableField[i][g].ggHere = false
+        tableField[i][g].eatHere = false
         tableField[i][g].numX = i
         tableField[i][g].numY = g
         if (i > -1 && g > -1 && g < tData - 1 && i < tRow - 1) {
@@ -407,14 +412,10 @@ function moveImgHead() {
     arrow3.style.left = `${xAndYforImg[0]}px`
     arrow3.style.top = `${xAndYforImg[1]}px`
     if (
-        tableField[SnakeHeadX][SnakeHeadY + 2].eatHere === true ||
         tableField[SnakeHeadX][SnakeHeadY + 1].eatHere === true ||
-        tableField[SnakeHeadX][SnakeHeadY - 2].eatHere === true ||
         tableField[SnakeHeadX][SnakeHeadY - 1].eatHere === true ||
         tableField[SnakeHeadX + 1][SnakeHeadY].eatHere === true ||
-        tableField[SnakeHeadX + 2][SnakeHeadY].eatHere === true ||
-        tableField[SnakeHeadX - 1][SnakeHeadY].eatHere === true ||
-        tableField[SnakeHeadX - 2][SnakeHeadY].eatHere === true
+        tableField[SnakeHeadX - 1][SnakeHeadY].eatHere === true
     ) {
         arrow.hidden = true
         arrow3.hidden = false
@@ -423,8 +424,6 @@ function moveImgHead() {
         arrow.hidden = false
 
     }
-
-
 }
 
 // передвижение изображения еды
@@ -442,7 +441,7 @@ let eatY = 0
 let eatXandY = undefined
 
 // начальная скорость предвижения змейки
-let tempSnake = 700
+let tempSnake = 500
 
 // съедание фруктов
 function snakeEat() {
@@ -455,7 +454,7 @@ function snakeEat() {
         spawnHavchik()
         countEat++
         counterDiv.innerHTML = countEat
-        tempSnake -= 20
+        tempSnake -= 10
         moveImgHead()
         creatBodyImg()
         eatSong.play()
@@ -576,4 +575,4 @@ spawnHavchik()
 // сделать картинки яблок , вместо черних квадратов +
 
 // сделать аниамцию глаз и рта в зависимости от удаленности
-// от яблока
+// от яблокa
